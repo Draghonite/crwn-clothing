@@ -18,9 +18,14 @@ const Header = ({ currentUser }) => (
       </Link>
       {
         currentUser ?
-        <div className='option' onClick={() => auth.signOut()}>SIGN OUT <div className={`${currentUser.isGoogleAuth ? 'google-sign-in': ''} circle`}>IM</div></div>
+        <div className='option' onClick={() => auth.signOut()}>SIGN OUT</div>
         :
         <Link className='option' to='/signin'>SIGN IN</Link>
+      }
+      {
+        currentUser ?
+        <div className={`${currentUser.isGoogleAuth ? 'google-sign-in': ''} circle option`} title={`${currentUser.displayName}\n${currentUser.email}`}>{currentUser.displayName.split(" ").map((n)=>n[0]).join("")}</div>
+        : ''
       }
     </div>
   </div>

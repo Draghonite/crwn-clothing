@@ -20,7 +20,6 @@ class App extends React.Component {
   componentDidMount() {
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
-        console.log(userAuth);
         const additionalData = {
           isGoogleAuth: userAuth.providerData.filter(provider => /google\.com/.test(provider.providerId)).length > 0
         };
