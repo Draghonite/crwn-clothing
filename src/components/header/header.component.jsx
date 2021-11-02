@@ -18,7 +18,7 @@ const Header = ({ currentUser }) => (
       </Link>
       {
         currentUser ?
-        <div className='option' onClick={() => auth.signOut()}>SIGN OUT</div>
+        <div className='option' onClick={() => auth.signOut()}>SIGN OUT <div className={`${currentUser.isGoogleAuth ? 'google-sign-in': ''} circle`}>IM</div></div>
         :
         <Link className='option' to='/signin'>SIGN IN</Link>
       }

@@ -2,10 +2,10 @@ import React from 'react';
 import { Switch, Route } from 'react-router';
 import './App.css';
 import Header from './components/header/header.component';
-import SignInAndSignUpPage from './pages/sigin-in-and-sign-up/sigin-in-and-sign-up.component';
+import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
-import { auth } from './firebase/firebase.utils';
+import { auth, createUserProfileDocument} from './firebase/firebase.utils';
 
 class App extends React.Component {
   constructor() {
@@ -18,9 +18,19 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-      this.setState({ currentUser: user });
-      console.log(user);
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      if (userAuth) {
+        console.log(userAuth);
+        const additionalData = {
+          isGoogleAuth: userAuth.providerData.filter(provider => /google\.com/.test(provider.providerId)).length > 0
+        };
+        const userRef = await createUserProfileDocument(userAuth, additionalData);
+        userRef.onSnapshot(snapshot => {
+          this.setState({ currentUser: { id: snapshot.id, ...snapshot.data() }});
+        })
+      } else {
+        this.setState({ currentUser: null });
+      }
     })
   }
 

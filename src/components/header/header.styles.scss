@@ -23,4 +23,20 @@
       cursor: pointer;
     }
   }
+
+  .circle {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    font-size: 1em;
+    color: #fff;
+    text-align: center;
+    background: #000;
+    font-weight: bold;
+
+    &.google-sign-in {
+      background: #4285f4;
+    }
+  }
 }
